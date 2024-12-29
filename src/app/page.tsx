@@ -64,11 +64,11 @@ const HomePage = () => {
         </div>
 
         {/* Right-side Button Section */}
-        <div className="flex flex-col space-y-4 p-5 items-center absolute right-3 top-0 bottom-3">
+        <div className="flex flex-col space-y-3 p-5 items-center absolute right-3 top-0 bottom-3">
           {[
             'Vamp',
             'Foxing',
-            'Swosh',
+            'Swoosh',
             'Laces',
             'Tip',
             'Backtap',
@@ -78,6 +78,7 @@ const HomePage = () => {
             'Outsole',
             'Quarter',
             'Collar',
+            'Shoelery',
             'Eyestay',
           ].map((label) => (
             <button

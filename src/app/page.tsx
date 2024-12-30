@@ -32,7 +32,7 @@ const HomePage = () => {
         >
           {/* Toggle Button */}
           <button
-            className="absolute -right-3 bg-gray-400 p-1 rounded-full hover:bg-gray-500"
+            className="absolute -right-3 bg-gray-400 p-1 rounded-full hover:bg-gray-900"
             style={{ top: '50%', transform: 'translateY(-50%)' }}
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           >

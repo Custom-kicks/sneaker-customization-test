@@ -1,0 +1,16 @@
+export const rightSideButtons: string[] = [
+    "Vamp",
+    "Foxing",
+    "Swoosh",
+    "Laces",
+    "Tip",
+    "Backtap",
+    "Tongue",
+    "Logo",
+    "Midsole",
+    "Outsole",
+    "Quarter",
+    "Collar",
+    "Shoelery",
+    "Eyestay",
+  ];

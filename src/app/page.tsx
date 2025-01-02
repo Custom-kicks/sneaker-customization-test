@@ -4,62 +4,96 @@ import React, { useState } from "react";
 import {
   Share2Icon,
   BookmarkIcon,
+  BookmarkFilledIcon,
   ChevronRightIcon,
   ResetIcon,
   TriangleLeftIcon,
   TriangleRightIcon,
 } from "@radix-ui/react-icons";
 
+// Importing data
+import { colors } from "./data/colors";
+import { rightSideButtons } from "./data/rightSideButtons";
+import BottomNavbar from "@/components/BottomNavbar";
+
 const HomePage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [visibleIndex, setVisibleIndex] = useState(0);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
-  const colors = [
-    "#FAD02E", "#FFA500", "#FF4500", "#008080", "#4682B4", "#2E8B57", "#000000",
-    "#808080", "#FFFFFF", "#800080", "#FFC0CB", "#A52A2A", "#228B22",
-    "#6495ED", "#DC143C", "#FF1493", "#FFD700", "#00CED1", "#ADFF2F",
-    "#4682B4", "#D2691E", "#4B0082", "#00FF7F", "#B22222", "#DA70D6", "#F0E68C",
-    "#556B2F", "#FF8C00", "#5F9EA0", "#F5DEB3", "#9932CC", "#E9967A", "#C71585",
-    "#FF4500", "#8B4513", "#2F4F4F", "#87CEEB", "#90EE90", "#FA8072",
-  ];
+  const toggleBookmark = () => {
+    setIsBookmarked((prev) => !prev);
+  };
 
-  const colorsToShow = 13;
+  const toggleNavbar = () => {
+    setIsNavbarOpen((prev) => !prev);
+  };
 
+  const colorsToShow = 13; // Number of visible colors
+
+  // Carousel Navigation Logic
   const handleLeftClick = () => {
     setVisibleIndex((prevIndex) =>
       prevIndex - colorsToShow < 0
-        ? 0
+        ? colors.length - colorsToShow
         : prevIndex - colorsToShow
     );
   };
 
   const handleRightClick = () => {
     setVisibleIndex((prevIndex) =>
-      prevIndex + colorsToShow >= colors.length
-        ? colors.length - colorsToShow
-        : prevIndex + colorsToShow
+      (prevIndex + colorsToShow) % colors.length
     );
   };
 
   return (
-    <div className="flex flex-col h-screen bg-white text-black">
+    <div
+      className={`flex flex-col h-screen bg-white text-black transition-all duration-300 ${
+        isNavbarOpen ? "backdrop-blur-sm" : ""
+      }`}
+    >
       {/* Header */}
-      <div className="flex justify-between items-center px-10 py-4 border-b ">
+      <div className="flex justify-between items-center px-10 py-4 border-b">
         <div>
           <h1 className="text-xl font-bold">Nike Dunk Low</h1>
           <p className="text-gray-500 text-sm">$120 (Estimated Price)</p>
         </div>
         <div className="flex items-center space-x-4">
-          <Share2Icon className="w-6 h-6 cursor-pointer text-gray-500" />
-          <BookmarkIcon className="w-6 h-6 cursor-pointer text-gray-500" />
+          {/* Share Icon */}
+          <Share2Icon
+            className="w-6 h-6 cursor-pointer text-gray-500"
+            onClick={toggleNavbar}
+          />
+          {/* Bookmark Icon */}
+          {isBookmarked ? (
+            <BookmarkFilledIcon
+              className="w-6 h-6 cursor-pointer text-gray-900"
+              onClick={toggleBookmark}
+            />
+          ) : (
+            <BookmarkIcon
+              className="w-6 h-6 cursor-pointer text-gray-500"
+              onClick={toggleBookmark}
+            />
+          )}
           <button className="px-5 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-600">
             Done
           </button>
         </div>
       </div>
 
+      {/* Bottom Navbar */}
+      {isNavbarOpen && (
+        <BottomNavbar
+          onClose={() =>
+            setIsNavbarOpen(false)
+          }
+        />
+      )}
+
       {/* Main Section */}
-      <div className="flex flex-1 relative">
+      <div className={`flex flex-1 relative ${isNavbarOpen ? "backdrop-blur-sm" : ""}`}>
         {/* Sidebar */}
         <div
           className={`relative ${
@@ -104,22 +138,7 @@ const HomePage = () => {
 
         {/* Right-side Button Section */}
         <div className="flex flex-col space-y-3 p-5 items-center absolute right-3 top-0 bottom-3">
-          {[
-            "Vamp",
-            "Foxing",
-            "Swoosh",
-            "Laces",
-            "Tip",
-            "Backtap",
-            "Tongue",
-            "Logo",
-            "Midsole",
-            "Outsole",
-            "Quarter",
-            "Collar",
-            "Shoelery",
-            "Eyestay",
-          ].map((label) => (
+          {rightSideButtons.map((label) => (
             <button
               key={label}
               className="w-28 py-2 px-4 bg-gray-500 text-white rounded-md hover:bg-gray-900 text-sm font-medium text-center font-semibold"
@@ -156,17 +175,15 @@ const HomePage = () => {
 
         {/* Color Palette Carousel */}
         <div className="flex items-center gap-4">
-          <button
-            onClick={handleLeftClick}
-          >
+          <button onClick={handleLeftClick} className="p-2">
             <TriangleLeftIcon className="w-7 h-7" />
           </button>
           <div className="flex flex-wrap justify-center gap-3">
             {colors
               .slice(visibleIndex, visibleIndex + colorsToShow)
-              .map((color) => (
+              .map((color, index) => (
                 <button
-                  key={color}
+                  key={`${color}-${index}`}
                   className="w-5 h-5 rounded-full border-2"
                   style={{
                     backgroundColor: color,
@@ -175,9 +192,7 @@ const HomePage = () => {
                 ></button>
               ))}
           </div>
-          <button
-            onClick={handleRightClick}
-          >
+          <button onClick={handleRightClick} className="p-2">
             <TriangleRightIcon className="w-7 h-7" />
           </button>
         </div>

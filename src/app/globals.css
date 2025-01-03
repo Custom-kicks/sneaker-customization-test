@@ -46,9 +46,9 @@ button {
 }
 
 .animate-slide-up {
-  animation: slide-up 0.3s ease-in-out forwards;
+  animation: slide-up 0.4s ease-in-out forwards;
 }
 
 .animate-slide-down {
-  animation: slide-down 0.3s ease-in-out forwards;
+  animation: slide-down 0.5s ease-in-out forwards;
 }
